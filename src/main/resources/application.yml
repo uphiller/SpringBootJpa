@@ -1,0 +1,47 @@
+server:
+  port: 8080
+  connection-timeout: 3600000
+  tomcat:
+    protocol-header: X-Forwarded-Proto
+    remote-ip-header: X-FORWARDED-FOR
+    port-header: X-Forwarded-Port
+
+---
+spring:
+  profiles: default, local
+  jackson:
+    time-zone: Asia/Seoul
+  datasource:
+    driverClassName: "org.mariadb.jdbc.Driver"
+    url: "jdbc:mysql://localhost:3306/test"
+    username: "root"
+    password: "1234"
+
+  jpa:
+    show-sql: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+      format_sql: true
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n"
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql: trace
+    org.springframework.cloud.openfegin: debug
+    org.springframework.transaction.interceptor: trace
+logback.access:
+  config: "classpath:logback-access.xml"
+hunet:
+  service:
+    auth:
+      address: https://api.dev.hunet.name
+---

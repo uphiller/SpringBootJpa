@@ -1,0 +1,15 @@
+<!DOCTYPE configuration>
+
+<!-- https://github.com/akihyro/logback-access-spring-boot-starter -->
+<!-- https://logback.qos.ch/access.html#configuration -->
+<configuration>
+    <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" />
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- <pattern>%h %l %u %user %date "%r" %s %b</pattern> -->
+            <!-- <pattern>%t{yyyy-MM-dd-HH:mm:ss:sss} [%h] "%r" %s %b %l %u "%i{X-FORWARDED-FOR}" "%i{Referer}" "%i{User-Agent}"</pattern> -->
+            <pattern>"%t{yyyy-MM-dd HH:mm:ss:sss}" "%r" "%s" "%b" "%l" "%u" "%i{X-FORWARDED-FOR}" "[%h]" "%i{User-Agent}" "%i{Referer}"</pattern>
+        </encoder>
+    </appender>
+    <appender-ref ref="CONSOLE" />
+</configuration>
