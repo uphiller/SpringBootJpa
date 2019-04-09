@@ -1,5 +1,6 @@
 package com.example.demo;
 
+import com.example.demo.repository.ResourceRepository;
 import com.example.demo.service.ResourceService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,8 +15,13 @@ public class DemoApplicationTests {
     @Autowired
     ResourceService resourceService;
 
+    @Autowired
+    ResourceRepository resourceRepository;
+
     @Test
-    public void contextLoads() {
+    public void contextLoads() throws Exception{
         resourceService.saveResource();
+        resourceService.rollbackResourceCheckedException();
+        resourceService.rollbackResourceUncheckedException();
     }
 }

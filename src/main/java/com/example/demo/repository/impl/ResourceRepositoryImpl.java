@@ -1,8 +1,9 @@
-package com.example.demo.repository.custom;
+package com.example.demo.repository.impl;
 
 import com.example.demo.entity.QProject;
 import com.example.demo.entity.QResource;
 import com.example.demo.entity.Resource;
+import com.example.demo.repository.ResourceRepository;
 import com.querydsl.jpa.impl.JPAQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.stereotype.Repository;
@@ -12,12 +13,12 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class CustomResourceRepositoryImpl extends QuerydslRepositorySupport implements CustomResourceRepository {
+public class ResourceRepositoryImpl extends QuerydslRepositorySupport implements ResourceRepository {
 	
 	@PersistenceContext
 	private EntityManager em;
 	
-	public CustomResourceRepositoryImpl(){
+	public ResourceRepositoryImpl(){
  		super(Resource.class);
 	}
 
@@ -32,7 +33,11 @@ public class CustomResourceRepositoryImpl extends QuerydslRepositorySupport impl
 			  .where(resource.name.eq(name))
 			  .fetch();
 	}
-	
-	
+
+	@Override
+	public void save(Resource rs) {
+		em.persist(rs);
+	}
+
 
 }

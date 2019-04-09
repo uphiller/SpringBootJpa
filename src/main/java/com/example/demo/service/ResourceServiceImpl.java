@@ -11,30 +11,29 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Service
+@Transactional
 public class ResourceServiceImpl implements ResourceService{
 	@Autowired
 	ResourceRepository resourceRepository;
 
-	@PersistenceContext
-	private EntityManager entityManager;
-
-	public List<Resource> getAllUser() {
-		return resourceRepository.findAll();
-	}
-	
-	public List<Resource> getResources() {
-		return resourceRepository.findByName("java");
-	}
-
-	@Transactional
 	public void saveResource() {
-		try {
-			Resource rs = new Resource();
-			rs.setName("Go");
-			resourceRepository.save(rs);
-			//if(1 != 0 ) throw new Exception("aaa");
-		} catch (Exception e) {
-			throw new RuntimeException("file not found");
-		}
+		Resource rs = new Resource();
+		rs.setName("Nomal");
+		resourceRepository.save(rs);
 	}
+
+	public void rollbackResourceCheckedException() throws Exception {
+		Resource rs = new Resource();
+		rs.setName("checkException");
+		resourceRepository.save(rs);
+		throw new Exception("file not found");
+	}
+
+	public void rollbackResourceUncheckedException(){
+		Resource rs = new Resource();
+		rs.setName("unCheckException");
+		resourceRepository.save(rs);
+		throw new RuntimeException("file not found");
+	}
+
 }
