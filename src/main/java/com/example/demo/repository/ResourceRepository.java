@@ -6,7 +6,6 @@ import java.util.List;
 
 
 public interface ResourceRepository {
-	List<Resource> findByName(String name);
+	List<Resource> findAll();
 	void save(Resource rs);
-
 }

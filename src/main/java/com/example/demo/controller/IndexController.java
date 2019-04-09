@@ -13,15 +13,8 @@ public class IndexController {
 	ResourceService resourceService;
 	
 	@GetMapping("/")        
-	 public String home(Model model) throws Exception{ 
-//		List<Resource> users = userService.getResources();
-//		model.addAttribute("users", users);
-		resourceService.saveResource();
-		return "index";
-	 }
-
-	@GetMapping("/error")
-	public String error() throws Exception{
+	public String home(Model model) {
 		return "index";
 	}
+
 }
