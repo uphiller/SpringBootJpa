@@ -9,6 +9,8 @@ server:
 ---
 spring:
   profiles: default, local
+  thymeleaf:
+    cache: false
   jackson:
     time-zone: Asia/Seoul
   datasource:
@@ -16,7 +18,9 @@ spring:
     url: "jdbc:mysql://localhost:3306/test"
     username: "root"
     password: "1234"
-
+  devtools:
+    livereload:
+      enabled: true
   jpa:
     show-sql: false
     generate-ddl: false

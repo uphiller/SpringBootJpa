@@ -8,4 +8,5 @@ import java.util.List;
 public interface ResourceRepository {
 	List<Resource> findAll();
 	void save(Resource rs);
+	boolean deleteByName (Resource param);
 }

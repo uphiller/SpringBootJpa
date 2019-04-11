@@ -2,17 +2,24 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
   <title>Layout page</title>
+
 </head>
 <body>
+  <div id="wapper">
   <header>
-    <h1>Header</h1>
   </header>
+    <nav>
+      <p>nav</p>
+      <ul>
+        <li><a href="">조회1</a></li>
+      </ul>
+    </nav>
+
   <section layout:fragment="content">
     <p>Page content goes here</p>
   </section>
-  <footer>
-    <h1>Footer</h1>
-  </footer>  
+
+  </div>
 </body>
 </html>
 

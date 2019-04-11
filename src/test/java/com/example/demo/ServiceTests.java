@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DemoApplicationTests {
+public class ServiceTests {
 
     @Autowired
     ResourceService resourceService;
@@ -33,6 +33,6 @@ public class DemoApplicationTests {
     @Test
     public void findAll() throws Exception{
         List<Resource> result =  resourceService.getResources();
-        assertEquals(6, result.size());
+        assertEquals(3, result.size());
     }
 }

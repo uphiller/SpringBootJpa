@@ -3,19 +3,454 @@
   layout:decorate="~{Layout/default}">
 <head>
   <title>Content page 3</title>
+
 </head>
 <body>
   <section layout:fragment="content">
-    <table>
-		<!--<tr th:if="${users.empty}">
-            <td colspan="2"> No Data Available </td>
-        </tr>
-        <tr th:each="user : ${users}">
-            <td><span th:text="${user.name}"> Title </span></td>
-            <td><span th:text="${user.idx}"> Author </span></td>
-	    </tr>-->
-		</tr>
-	</table>
+
+
+      <div id="ib_sheetTab">
+          <div class="ib-tab-tabs-item">
+              <a class="ib-tab-tabs-item__link is-active"><span class="ib-tab-tabs-item__title"><span class="lg-view">2016년 </span>7월</span></a>
+              <a class="ib-tab-tabs-item__link"><span class="ib-tab-tabs-item__title"><span class="lg-view">2016년 </span>6월</span></a>
+              <a class="ib-tab-tabs-item__link"><span class="ib-tab-tabs-item__title"><span class="lg-view">2016년 </span>5월</span></a>
+              <a class="ib-tab-tabs-item__link"><span class="ib-tab-tabs-item__title"><span class="lg-view">2016년 </span>4월</span></a>
+          </div>
+      </div>
+      <div id="ib_sheetContents">
+          <div class="ib-tab-contents__item">
+              <div id='ib-container1'></div>
+          </div>
+          <div class="ib-tab-contents__item">
+              <div id='ib-container2'></div>
+          </div>
+          <div class="ib-tab-contents__item">
+              <div id='ib-container3'></div>
+          </div>
+          <div class="ib-tab-contents__item">
+              <div id='ib-container4'></div>
+          </div>
+      </div>
+      <input type="button" id="button1" onclick="search();" value="조회" />
+      <input type="button" id="button1" onclick="save();" value="저장" />
+      <script>
+          var ib = {
+              initialize: function() {
+                  var initData = {
+                      "Cfg": {
+                          "SearchMode": 1,
+                          "Page": 10,
+                          "AutoFitColWidth": "init|search|resize",
+                          "DeferredVScroll": 1
+                      },
+                      "HeaderMode": {},
+                      "Cols": [{
+                          "Header": "순위",
+                          "Type": "Seq",
+                          "Width": 50,
+                          "SaveName": "sSeq",
+                          "Align": "Right"
+                      }, {
+                          "Header": "영화명",
+                          "Type": "Text",
+                          "Width": 200,
+                          "SaveName": "sTitle",
+                          "Ellipsis": 1
+                      }, {
+                          "Header": "개봉일",
+                          "Type": "Date",
+                          "Width": 100,
+                          "SaveName": "sDate",
+                          "Align": "Center",
+                          "ShowMobile": 0
+                      }, {
+                          "Header": "점유율",
+                          "Type": "Float",
+                          "Width": 50,
+                          "SaveName": "sShare",
+                          "Format": "#,##0.0\\%",
+                          "ShowMobile": 0
+                      }, {
+                          "Header": "상영횟수",
+                          "Type": "AutoSum",
+                          "Width": 100,
+                          "SaveName": "sCount",
+                          "Format": "#,##0"
+                      }, {
+                          "Header": "국가",
+                          "Type": "Combo",
+                          "Width": 70,
+                          "SaveName": "sNation",
+                          "ComboText": "한국|미국|일본|영국|캐나다|이탈리아|스웨덴|중국|프랑스|아일랜드|대만",
+                          "Align": "Center",
+                          "ShowMobile": 0
+                      }, {
+                          "Header": "배급사",
+                          "Type": "Text",
+                          "Width": 200,
+                          "SaveName": "sDist",
+                          "ShowMobile": 0
+                      }]
+                  };
+
+                  createIBTab($('#ib_sheetTab')[0], $('#ib_sheetContents')[0], 'sheetTab', {
+                      themes: {
+                          tabs: "simple_under_blue",
+                          contents: "simple_under_blue",
+                          contextMenu: "simple_under_blue"
+                      },
+                      allowCloseBTN: true
+                  });
+
+                  createIBSheet2($("#ib-container1")[0], "mySheet1", "100%", "304px");
+                  createIBSheet2($("#ib-container2")[0], "mySheet2", "100%", "304px");
+                  createIBSheet2($("#ib-container3")[0], "mySheet3", "100%", "304px");
+
+
+                  if (this.setIBEvents) {
+                      this.setIBEvents();
+                  }
+
+                  IBS_InitSheet(mySheet1, initData);
+                  IBS_InitSheet(mySheet2, initData);
+                  IBS_InitSheet(mySheet3, initData);
+
+
+                  this.doAction();
+              },
+              data: [{
+                  "data": [{
+                      "sTitle": "부산행",
+                      "sDate": "20160720",
+                      "sShare": 32.9,
+                      "sCount": 74471,
+                      "sNation": "한국",
+                      "sDist": "(주)넥스트엔터테인먼트월드(NEW)"
+                  }, {
+                      "sTitle": "나우 유 씨 미 2",
+                      "sDate": "20160713",
+                      "sShare": 14.5,
+                      "sCount": 52647,
+                      "sNation": "미국",
+                      "sDist": "롯데쇼핑㈜롯데엔터테인먼트"
+                  }, {
+                      "sTitle": "도리를 찾아서",
+                      "sDate": "20160706",
+                      "sShare": 10.6,
+                      "sCount": 48846,
+                      "sNation": "미국",
+                      "sDist": "월트디즈니컴퍼니코리아(주)"
+                  }, {
+                      "sTitle": "봉이 김선달",
+                      "sDate": "20160706",
+                      "sShare": 9.9,
+                      "sCount": 51170,
+                      "sNation": "한국",
+                      "sDist": "씨제이이앤엠(주)"
+                  }, {
+                      "sTitle": "굿바이 싱글",
+                      "sDate": "20160629",
+                      "sShare": 9.3,
+                      "sCount": 50087,
+                      "sNation": "한국",
+                      "sDist": "(주)쇼박스"
+                  }, {
+                      "sTitle": "레전드 오브 타잔",
+                      "sDate": "20160629",
+                      "sShare": 3.8,
+                      "sCount": 22833,
+                      "sNation": "미국",
+                      "sDist": "워너브러더스 코리아(주)"
+                  }, {
+                      "sTitle": "인천상륙작전",
+                      "sDate": "20160727",
+                      "sShare": 1.9,
+                      "sCount": 4771,
+                      "sNation": "한국",
+                      "sDist": "씨제이이앤엠(주)"
+                  }, {
+                      "sTitle": "사냥",
+                      "sDate": "20160629",
+                      "sShare": 2.1,
+                      "sCount": 21641,
+                      "sNation": "한국",
+                      "sDist": "롯데쇼핑㈜롯데엔터테인먼트"
+                  }, {
+                      "sTitle": "언더 워터",
+                      "sDate": "20160713",
+                      "sShare": 1.9,
+                      "sCount": 12662,
+                      "sNation": "미국",
+                      "sDist": "유니버설픽쳐스인터내셔널 코리아(유)"
+                  }, {
+                      "sTitle": "아이스 에이지: 지구 대충돌",
+                      "sDate": "20160720",
+                      "sShare": 1.6,
+                      "sCount": 9294,
+                      "sNation": "미국",
+                      "sDist": "이십세기폭스코리아(주)"
+                  }]
+              }, {
+                  "data": [{
+                      "sTitle": "아가씨",
+                      "sDate": "20160601",
+                      "sShare": 24.4,
+                      "sCount": 83930,
+                      "sNation": "한국",
+                      "sDist": "씨제이이앤엠(주)"
+                  }, {
+                      "sTitle": "정글북",
+                      "sDate": "20160609",
+                      "sShare": 14,
+                      "sCount": 51764,
+                      "sNation": "미국",
+                      "sDist": "월트디즈니컴퍼니코리아(주)"
+                  }, {
+                      "sTitle": "컨저링 2",
+                      "sDate": "20160609",
+                      "sShare": 10.1,
+                      "sCount": 39071,
+                      "sNation": "미국",
+                      "sDist": "워너브러더스 코리아(주)"
+                  }, {
+                      "sTitle": "인디펜던스 데이 : 리써전스",
+                      "sDate": "20160622",
+                      "sShare": 7.4,
+                      "sCount": 35617,
+                      "sNation": "미국",
+                      "sDist": "이십세기폭스코리아(주)"
+                  }, {
+                      "sTitle": "워크래프트: 전쟁의 서막",
+                      "sDate": "20160609",
+                      "sShare": 7.2,
+                      "sCount": 33816,
+                      "sNation": "미국",
+                      "sDist": "유니버설픽쳐스인터내셔널 코리아(유)"
+                  }, {
+                      "sTitle": "특별수사: 사형수의 편지",
+                      "sDate": "20160616",
+                      "sShare": 6.3,
+                      "sCount": 32680,
+                      "sNation": "한국",
+                      "sDist": "(주)넥스트엔터테인먼트월드(NEW)"
+                  }, {
+                      "sTitle": "엑스맨: 아포칼립스",
+                      "sDate": "20160525",
+                      "sShare": 6.7,
+                      "sCount": 27915,
+                      "sNation": "미국",
+                      "sDist": "이십세기폭스코리아(주)"
+                  }, {
+                      "sTitle": "곡성",
+                      "sDate": "20160512",
+                      "sShare": 6.1,
+                      "sCount": 27414,
+                      "sNation": "한국",
+                      "sDist": "이십세기폭스코리아(주)"
+                  }, {
+                      "sTitle": "미 비포 유",
+                      "sDate": "20160601",
+                      "sShare": 4.8,
+                      "sCount": 24247,
+                      "sNation": "미국",
+                      "sDist": "워너브러더스 코리아(주)"
+                  }, {
+                      "sTitle": "굿바이 싱글",
+                      "sDate": "20160629",
+                      "sShare": 1.3,
+                      "sCount": 6253,
+                      "sNation": "한국",
+                      "sDist": "(주)쇼박스"
+                  }]
+              }, {
+                  "data": [{
+                      "sTitle": "곡성",
+                      "sDate": "20160512",
+                      "sShare": 32,
+                      "sCount": 101827,
+                      "sNation": "한국",
+                      "sDist": "이십세기폭스코리아(주)"
+                  }, {
+                      "sTitle": "캡틴 아메리카: 시빌 워",
+                      "sDate": "20160427",
+                      "sShare": 32.6,
+                      "sCount": 123203,
+                      "sNation": "미국",
+                      "sDist": "월트디즈니컴퍼니코리아(주)"
+                  }, {
+                      "sTitle": "엑스맨: 아포칼립스",
+                      "sDate": "20160525",
+                      "sShare": 10.3,
+                      "sCount": 38345,
+                      "sNation": "미국",
+                      "sDist": "이십세기폭스코리아(주)"
+                  }, {
+                      "sTitle": "탐정 홍길동: 사라진 마을",
+                      "sDate": "20160504",
+                      "sShare": 7.8,
+                      "sCount": 40801,
+                      "sNation": "한국",
+                      "sDist": "씨제이이앤엠(주)"
+                  }, {
+                      "sTitle": "앵그리버드 더 무비",
+                      "sDate": "20160519",
+                      "sShare": 2.4,
+                      "sCount": 11393,
+                      "sNation": "미국",
+                      "sDist": "유니버설픽쳐스인터내셔널 코리아(유)"
+                  }, {
+                      "sTitle": "계춘할망",
+                      "sDate": "20160519",
+                      "sShare": 2.1,
+                      "sCount": 16541,
+                      "sNation": "한국",
+                      "sDist": "(주)콘텐츠 난다긴다"
+                  }, {
+                      "sTitle": "싱 스트리트",
+                      "sDate": "20160519",
+                      "sShare": 2.1,
+                      "sCount": 15907,
+                      "sNation": "아일랜드",
+                      "sDist": "(주)이수C&E"
+                  }, {
+                      "sTitle": "나의 소녀시대",
+                      "sDate": "20160512",
+                      "sShare": 1.8,
+                      "sCount": 8844,
+                      "sNation": "대만",
+                      "sDist": "오드"
+                  }, {
+                      "sTitle": "극장판 안녕 자두야",
+                      "sDate": "20160504",
+                      "sShare": 1.4,
+                      "sCount": 7655,
+                      "sNation": "한국",
+                      "sDist": "씨제이이앤엠(주)"
+                  }, {
+                      "sTitle": "주토피아",
+                      "sDate": "20160217",
+                      "sShare": 1,
+                      "sCount": 6575,
+                      "sNation": "미국",
+                      "sDist": "월트디즈니컴퍼니코리아(주)"
+                  }]
+              },{
+                  "data": [{
+                      "sTitle": "곡성",
+                      "sDate": "20160512",
+                      "sShare": 32,
+                      "sCount": 101827,
+                      "sNation": "한국",
+                      "sDist": "이십세기폭스코리아(주)"
+                  }]
+              }],
+              doAction: function() {
+                  mySheet1.LoadSearchData(this.data[0], {
+                      Sync: 1
+                  });
+                  mySheet2.LoadSearchData(this.data[1], {
+                      Sync: 1
+                  });
+                  mySheet3.LoadSearchData(this.data[2], {
+                      Sync: 1
+                  });
+
+              }
+          };
+          ib.initialize();
+
+          // jsfiddle에서 ib 접근을 위해 window에 등록
+          window.ib = ib;
+
+          function search(){
+              var initData = {
+                  "Cfg": {
+                      "SearchMode": 1,
+                      "Page": 10,
+                      "AutoFitColWidth": "init|search|resize",
+                      "DeferredVScroll": 1
+                  },
+                  "HeaderMode": {},
+                  "Cols": [{
+                      "Header": "순위",
+                      "Type": "Seq",
+                      "Width": 50,
+                      "SaveName": "sSeq",
+                      "Align": "Right"
+                  }, {
+                      "Header": "영화명",
+                      "Type": "Text",
+                      "Width": 200,
+                      "SaveName": "sTitle",
+                      "Ellipsis": 1
+                  }, {
+                      "Header": "개봉일",
+                      "Type": "Date",
+                      "Width": 100,
+                      "SaveName": "sDate",
+                      "Align": "Center",
+                      "ShowMobile": 0
+                  }, {
+                      "Header": "점유율",
+                      "Type": "Float",
+                      "Width": 50,
+                      "SaveName": "sShare",
+                      "Format": "#,##0.0\\%",
+                      "ShowMobile": 0
+                  }, {
+                      "Header": "상영횟수",
+                      "Type": "AutoSum",
+                      "Width": 100,
+                      "SaveName": "sCount",
+                      "Format": "#,##0"
+                  }, {
+                      "Header": "국가",
+                      "Type": "Combo",
+                      "Width": 70,
+                      "SaveName": "sNation",
+                      "ComboText": "한국|미국|일본|영국|캐나다|이탈리아|스웨덴|중국|프랑스|아일랜드|대만",
+                      "Align": "Center",
+                      "ShowMobile": 0
+                  }, {
+                      "Header": "배급사",
+                      "Type": "Text",
+                      "Width": 200,
+                      "SaveName": "sDist",
+                      "ShowMobile": 0
+                  }, {
+                      "Header": "상태",
+                      "Type": "Status",
+                      "Width": 60,
+                      "SaveName": "sStatus",
+                      "Align": "Center",
+                      "ShowMobile": 0
+                  }, {
+                      "Header": "삭제",
+                      "Type": "DelCheck",
+                      "Width": 60,
+                      "SaveName": "sDelCheck",
+                      "ShowMobile": 0
+                  }, ]
+              };
+
+              $.ajax({
+                  url:'/resources',
+                  success:function(data){
+                      var ajaxData = {"data": data};
+                      createIBSheet2($("#ib-container4")[0], "mySheet4", "100%", "304px");
+                      IBS_InitSheet(mySheet4, initData);
+                      mySheet4.LoadSearchData(ajaxData, {
+                          Sync: 1
+                      });
+                  }
+              })
+          }
+
+          function save(){
+              var retData = mySheet4.GetSaveData('/movie', '');
+          }
+      </script>
   </section>
+
 </body>
 </html>
